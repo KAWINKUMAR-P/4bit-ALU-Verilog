@@ -1,0 +1,48 @@
+`timescale 1ns/1ps
+
+module tb_alu;
+
+reg [3:0] A, B;
+reg [3:0] ALU_Sel;
+
+wire [3:0] ALU_Out;
+wire CarryOut;
+
+alu uut(
+    .A(A),
+    .B(B),
+    .ALU_Sel(ALU_Sel),
+    .ALU_Out(ALU_Out),
+    .CarryOut(CarryOut)
+);
+
+initial begin
+    A = 4'b1010;
+    B = 4'b0010;
+
+    ALU_Sel = 4'b0000; #100; // ADD
+    ALU_Sel = 4'b0001; #100; // SUB
+    ALU_Sel = 4'b0010; #100; // MUL
+    ALU_Sel = 4'b0011; #100; // DIV
+    ALU_Sel = 4'b0100; #100; // SHL
+    ALU_Sel = 4'b0101; #100; // SHR
+    ALU_Sel = 4'b0110; #100; // ROL
+    ALU_Sel = 4'b0111; #100; // ROR
+    ALU_Sel = 4'b1000; #100; // AND
+    ALU_Sel = 4'b1001; #100; // OR
+    ALU_Sel = 4'b1010; #100; // XOR
+    ALU_Sel = 4'b1011; #100; // NOR
+    ALU_Sel = 4'b1100; #100; // NAND
+    ALU_Sel = 4'b1101; #100; // XNOR
+    ALU_Sel = 4'b1110; #100; // GT
+    ALU_Sel = 4'b1111; #100; // EQ
+
+    $finish;
+end
+
+initial begin
+    $monitor("Time=%0t A=%b B=%b ALU_Sel=%b ALU_Out=%b CarryOut=%b",
+              $time, A, B, ALU_Sel, ALU_Out, CarryOut);
+end
+
+endmodule
